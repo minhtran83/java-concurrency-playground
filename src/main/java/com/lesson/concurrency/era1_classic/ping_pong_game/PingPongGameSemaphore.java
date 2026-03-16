@@ -1,4 +1,4 @@
-package com.lesson.concurrency.era1_classic.monitor;
+package com.lesson.concurrency.era1_classic.ping_pong_game;
 
 import java.util.concurrent.Semaphore;
 

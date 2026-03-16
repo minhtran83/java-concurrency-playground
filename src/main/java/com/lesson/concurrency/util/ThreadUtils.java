@@ -50,7 +50,7 @@ public class ThreadUtils {
      */
     public static String getThreadName() {
         Thread current = Thread.currentThread();
-        return String.format("%s (ID: %d)", current.getName(), current.getId());
+        return String.format("%s (ID: %d)", current.getName(), current.threadId());
     }
 
     /**

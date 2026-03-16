@@ -1,13 +1,15 @@
-package com.lesson.concurrency.era1_classic.monitor;
+package com.lesson.concurrency.era1_classic.ping_pong_game;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.fail;
 /**
  * Test suite for PingPongGameSemaphore.
  *
