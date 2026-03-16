@@ -184,37 +184,40 @@ try {
 ```
 
 ### 3. Semaphore Pattern
-**Best for:** Simple turn-taking, resource pooling, rate limiting.
+**Best for:** Simple turn-taking (Ping-Pong), resource pooling.
 ```java
-myTurn.acquire();         // Wait for permit
-// Do work...
-otherTurn.release();      // Give permit to other
+// Thread A (Ping)        // Thread B (Pong)
+pingSem.acquire();        pongSem.acquire();
+print("Ping");            print("Pong");
+pongSem.release();        pingSem.release();
 ```
 
 ### 4. Enum State Pattern
 **Best for:** Clarity and self-documenting code.
 ```java
+// Shared State
 enum Turn { PING, PONG }
-// ...
-while (turn != Turn.PING) { ... }
+// In synchronized block:
+while (turn != Turn.PING) lock.wait();
 turn = Turn.PONG;
 ```
 
 ### 5. Exchanger Pattern (Double Handshake)
-**Best for:** Strict 2-thread data swapping or synchronization.
+**Best for:** Strict 2-thread synchronization or data swap.
 ```java
-// Thread A             // Thread B
-exchange("HandOff");    exchange("Wait");
-// ... work ...         // ... work ...
-exchange("Wait");       exchange("Ack");
+// Thread A (Ping)        // Thread B (Pong)
+print("Ping");            exchange("Wait");  // Wait for A
+exchange("Turn");         print("Pong");
+exchange("Wait");         exchange("Turn");  // Give back
 ```
 
 ### 6. CyclicBarrier Pattern (Relay Race)
 **Best for:** Group synchronization (N threads wait for each other).
 ```java
-// Barrier 1            // Barrier 2
-barrier1.await();       barrier2.await();
-// ... work ...         // ... work ...
+// Thread A (Ping)        // Thread B (Pong)
+print("Ping");            afterPing.await(); // Wait for A
+afterPing.await();        print("Pong");
+afterPong.await();        afterPong.await(); // Signal done
 ```
 
 ---
