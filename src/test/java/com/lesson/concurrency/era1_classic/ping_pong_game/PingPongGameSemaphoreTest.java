@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.fail;
 /**
  * Test suite for PingPongGameSemaphore.
- *
  * Tests verify:
  * - Correct alternation between Ping and Pong
  * - Proper synchronization without race conditions

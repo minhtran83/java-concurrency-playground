@@ -356,7 +356,7 @@ public class PingPongGameWithExchanger {
 | **Boolean Flag** | ⭐⭐ | ⭐⭐⭐ | ⭐ | Learning only |
 | **Enum Flag** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | 2-3 threads |
 | **Extracted Methods** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | Testable code |
-| **ReentrantLock** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | Production code |
+| **ReentrantLock** | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | Production code |
 | **Multiple Conditions** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Producer-Consumer |
 | **Semaphore** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | Simple turn-taking |
 | **Exchanger** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | Buffer swapping |

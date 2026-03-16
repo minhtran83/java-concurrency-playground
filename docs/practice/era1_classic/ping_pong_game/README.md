@@ -1,311 +1,130 @@
-# Practice Exercises: Monitor Pattern (Era 1 - Classic)
+# Exercise: The Ping-Pong Game (Strict Turn-Taker)
 
-This folder contains your practice implementations of monitor pattern exercises.
-
-## Learning → Practice Workflow
-
-1. **Study the lessons** in `docs/lessons/era1_classic/monitor/`
-   - Read: `monitor_pattern_coordination.md`
-   - Learn: `monitor_pattern_alternatives.md`
-   - Understand: `monitor_pattern_generic.md`
-
-2. **Review the reference implementation** in `com.lesson.concurrency.era1_classic.monitor.PingPongGame`
-   - Understand how the pattern works
-   - Study the synchronization logic
-   - Review the test cases
-
-3. **Implement your own version** in `com.practice.concurrency.era1_classic.monitor`
-   - Create your own `PingPongGame.java`
-   - Write your own `PingPongGameTest.java`
-   - Use the lessons as a guide, not a copy
-
-4. **Review and refactor**
-   - Can you improve the code?
-   - Can you use Enum instead of boolean?
-   - Can you extract common patterns?
-   - Can you eliminate duplication?
+A foundational concurrency exercise that teaches thread coordination, synchronization primitives, and design pattern evolution.
 
 ---
 
-## Exercise: The Strict Turn-Taker (Ping-Pong)
+## 🎯 Goal
+Create two threads, "Ping" and "Pong", that must print their names alternately in strict order.
 
-### Problem
-Create two threads, "Ping" and "Pong", that must print their names alternately using `wait()` and `notify()`.
-
-**Expected output for 5 iterations:**
+**Expected Output (5 iterations):**
 ```
-Ping, Pong, Ping, Pong, Ping, Pong, Ping, Pong, Ping, Pong
-```
-
-### Requirements
-
-✅ **Functionality:**
-- Two threads that print "Ping" and "Pong" alternately
-- Strict turn-based coordination
-- No race conditions
-- Configurable iteration count
-
-✅ **Code Quality:**
-- Clear, self-documenting code
-- Proper synchronization
-- Handles spurious wakeups correctly
-- Includes a `stop()` method for cleanup
-
-✅ **Testing:**
-- Unit tests verify alternation
-- Tests verify no deadlock
-- Tests verify thread termination
-- All tests pass
-
-✅ **Documentation:**
-- JavaDoc on all public methods
-- Explain the synchronization approach
-- Document the state management
-
----
-
-## Step-by-Step Guide
-
-### Step 1: Create the Class Structure
-```java
-package com.practice.concurrency.era1_classic.monitor;
-
-public class PingPongGame {
-    // TODO: Add fields
-    
-    // TODO: Implement ping(int count)
-    
-    // TODO: Implement pong(int count)
-    
-    // TODO: Implement stop()
-    
-    // TODO: Implement main() for testing
-}
-```
-
-### Step 2: Design Your State Management
-
-**Option A: Boolean Flag** (Simplest, but less clear)
-```java
-private boolean pingTurn = true;
-```
-
-**Option B: Enum** (Recommended - clearer)
-```java
-private enum Turn { PING, PONG }
-private Turn turn = Turn.PING;
-```
-
-**Choose one and explain why in a comment.**
-
-### Step 3: Implement the Synchronization
-
-Think about:
-- What is the shared lock object?
-- What is the condition to wait for?
-- How do you switch turns?
-- Why use `while` instead of `if`?
-
-### Step 4: Write Comprehensive Tests
-
-Your `PingPongGameTest.java` should test:
-- [ ] Basic alternation pattern
-- [ ] Single iteration
-- [ ] Multiple iterations
-- [ ] No deadlock (with timeout)
-- [ ] Thread termination
-- [ ] Interrupt handling
-- [ ] Turn switching logic
-
-### Step 5: Refactor and Improve
-
-After getting it working, consider:
-- [ ] Can you use the generic pattern from lesson 3?
-- [ ] Can you extract `waitForMyTurn()` and `passTurn()` methods?
-- [ ] Can you use Semaphore instead?
-- [ ] Can you use ReentrantLock + Condition?
-
----
-
-## Comparison: Your Code vs Lesson Reference
-
-After you've implemented your version, compare with `com.lesson.concurrency.era1_classic.monitor.PingPongGame`:
-
-**Similarities to look for:**
-- Same synchronization pattern
-- Same state management
-- Same test coverage
-
-**Differences to discuss:**
-- Different code organization?
-- Different naming choices?
-- Different error handling?
-- Which approach is clearer?
-
----
-
-## Common Mistakes to Avoid
-
-❌ **Using `if` instead of `while`**
-```java
-// WRONG
-if (!pingTurn) lock.wait();
-
-// CORRECT
-while (!pingTurn) lock.wait();
-```
-
-❌ **Not handling InterruptedException**
-```java
-// WRONG
-lock.wait();  // Ignores exception
-
-// CORRECT
-try {
-    lock.wait();
-} catch (InterruptedException e) {
-    Thread.currentThread().interrupt();
-}
-```
-
-❌ **Forgetting to notify**
-```java
-// WRONG
-synchronized(lock) {
-    // Do work
-    // Forgot notifyAll!
-}
-
-// CORRECT
-synchronized(lock) {
-    // Do work
-    lock.notifyAll();
-}
-```
-
-❌ **Not using volatile for shared flags**
-```java
-// WRONG
-private boolean running = true;  // Not volatile!
-
-// CORRECT
-private volatile boolean running = true;
+PingPongPingPongPingPongPingPongPingPong
 ```
 
 ---
 
-## Testing Your Implementation
+## 📚 Learning Resources
 
-### Run your tests:
-```bash
-mvn test -Dtest=PingPongGameTest
-```
+Before coding, study these lessons to understand the concepts:
 
-### Run with output capture:
-```bash
-mvn test -Dtest=PingPongGameTest -e
-```
+### 1. [Coordination Fundamentals](../../../../lessons/era1_classic/ping_pong_game/monitor_pattern_coordination.md)
+**Focus:** The `wait()`/`notify()` pattern
+- Why `while` loops are essential (spurious wakeups)
+- Why `notifyAll()` is safer than `notify()`
+- How the monitor lock works
 
-### Run the main method directly:
-```bash
-java -cp target/classes com.practice.concurrency.era1_classic.monitor.PingPongGame
-```
+### 2. [Semaphore Pattern](../../../../lessons/era1_classic/ping_pong_game/semaphore_pattern.md)
+**Focus:** A simpler alternative
+- Using permits for coordination
+- Why it's less error-prone than wait/notify
+- Perfect for simple turn-taking
 
----
+### 3. [Better Patterns](../../../../lessons/era1_classic/ping_pong_game/monitor_pattern_alternatives.md)
+**Focus:** Enum state & cleaner code
+- Why boolean flags are confusing
+- Using Enums for self-documenting state
+- Comparison of different approaches
 
-## Levels of Completion
-
-### Level 1: Basic Implementation ⭐
-- [ ] Code compiles
-- [ ] Basic alternation works
-- [ ] Simple tests pass
-- Estimated time: 1-2 hours
-
-### Level 2: Production Quality ⭐⭐
-- [ ] All edge cases handled
-- [ ] Comprehensive tests
-- [ ] JavaDoc documented
-- [ ] Proper error handling
-- Estimated time: 2-3 hours
-
-### Level 3: Refactored & Optimized ⭐⭐⭐
-- [ ] Multiple implementations (boolean, Enum, Semaphore, ReentrantLock)
-- [ ] Generic extracted pattern
-- [ ] Performance comparison
-- [ ] All tests passing for all variants
-- Estimated time: 3-5 hours
+### 4. [Advanced Refactoring](../../../../lessons/era1_classic/ping_pong_game/monitor_pattern_generic.md)
+**Focus:** DRY & Generics
+- Eliminating code duplication
+- Using lambdas for actions
+- Writing production-grade concurrent code
 
 ---
 
-## Reflection Questions
+## 💻 Practice Instructions
 
-After implementing, answer these questions:
+### Step 1: Implement Basic Version
+Create `PingPongGame.java` using `synchronized`, `wait()`, and `notify()`.
 
-1. **Understanding:**
-   - What is the purpose of `synchronized(lock)`?
-   - Why can't you use `if` instead of `while`?
-   - What happens if you forget to `notifyAll()`?
+**Requirements:**
+- Two threads (Ping and Pong)
+- Strict alternation
+- Configurable iterations
+- Correct synchronization (no race conditions)
 
-2. **Design:**
-   - Is boolean or Enum better for state management? Why?
-   - Could you use a different synchronization primitive?
-   - How would you extend this to 3+ threads?
+### Step 2: Refactor with Enum
+Create `PingPongGameEnum.java` using an Enum for state.
 
-3. **Testing:**
-   - What edge cases did you test?
-   - What could go wrong in production?
-   - How would you test for deadlocks?
+**Why:**
+- Makes state explicit (`Turn.PING` vs `true/false`)
+- Easier to debug and understand
+- Harder to make logic errors
 
-4. **Refactoring:**
-   - Can you eliminate code duplication?
-   - Can you extract common patterns?
-   - How would you parameterize the work?
+### Step 3: Try Semaphore
+Create `PingPongGameSemaphore.java` using `java.util.concurrent.Semaphore`.
 
----
+**Why:**
+- See how much simpler it is
+- No explicit lock needed
+- No while loops for spurious wakeups
 
-## Next Exercises
+### Step 4: Advanced Generic Version
+Create `PingPongGameExtract.java` using a generic method.
 
-After mastering PingPongGame:
-1. **Bounded Buffer** - Producer-Consumer with shared queue
-2. **Dining Philosophers** - Deadlock prevention
-3. **Custom Thread Pool** - Executor implementation
-4. **Semaphore Example** - Alternative synchronization
-
----
-
-## Resources
-
-- **Lessons:** `docs/lessons/era1_classic/monitor/`
-- **Reference:** `com.lesson.concurrency.era1_classic.monitor.PingPongGame`
-- **Test Examples:** `com.lesson.concurrency.era1_classic.monitor.PingPongGameTest`
-- **Utilities:** `com.example.concurrency.util.ThreadUtils`
+**Why:**
+- Eliminate code duplication (DRY)
+- Pass behavior as parameters
+- Professional-grade implementation
 
 ---
 
-## Submission Checklist
+## 🔍 Code Comparison
 
-Before marking as complete:
+After implementing, compare your solutions with the reference implementations in:
+`src/main/java/com/lesson/concurrency/era1_classic/ping_pong_game/`
 
-- [ ] Code compiles: `mvn clean install`
-- [ ] All tests pass: `mvn test -Dtest=PingPongGameTest`
-- [ ] No warnings or errors
-- [ ] JavaDoc on all public classes/methods
-- [ ] At least 5 different test cases
-- [ ] Proper exception handling
-- [ ] Clear, readable code
-- [ ] Package name: `com.practice.concurrency.era1_classic.monitor`
-
----
-
-## Getting Help
-
-If stuck:
-1. **Review the lessons** - All answers are in the documentation
-2. **Study the reference implementation** - See how it's done
-3. **Read the test cases** - They show expected behavior
-4. **Check common mistakes** - Above in this file
-5. **Ask specific questions** - About synchronization or testing
+| Approach | Complexity | Clarity | Risk |
+| :--- | :--- | :--- | :--- |
+| **Wait/Notify** | ⭐⭐⭐ | ⭐⭐ | High (spurious wakeups) |
+| **Enum State** | ⭐⭐⭐ | ⭐⭐⭐⭐ | Medium |
+| **Semaphore** | ⭐ | ⭐⭐⭐⭐⭐ | Low (simplest) |
+| **Generic/DRY** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Low (once correct) |
 
 ---
 
-*Remember: The goal is to understand, not to copy. Write your own code, make your own mistakes, learn from them!* 🚀
+## ⚠️ Common Mistakes to Avoid
+
+### 1. Using `if` instead of `while`
+❌ **Wrong:** `if (!turn) wait();`
+✅ **Right:** `while (!turn) wait();`
+*Reason:* Threads can wake up without being notified (spurious wakeup). You must recheck the condition.
+
+### 2. Calling notify() outside synchronized
+❌ **Wrong:** `lock.notifyAll();`
+✅ **Right:** `synchronized(lock) { lock.notifyAll(); }`
+*Reason:* You must hold the monitor lock to call wait/notify.
+
+### 3. Missing Exception Handling
+❌ **Wrong:** `wait();`
+✅ **Right:** `try { wait(); } catch (InterruptedException e) { ... }`
+*Reason:* Threads can be interrupted. You should restore the interrupt status.
+
+### 4. Shared State Visibility
+❌ **Wrong:** `boolean running;`
+✅ **Right:** `volatile boolean running;`
+*Reason:* Changes in one thread might not be visible to others without synchronization or volatile.
+
+---
+
+## ✅ Submission Checklist
+
+- [ ] All 4 implementations created
+- [ ] `mvn test` passes for all versions
+- [ ] No race conditions (tested with 100+ iterations)
+- [ ] Code is clean and formatted
+- [ ] Exceptions handled properly
+
+**Ready? Start coding in `src/main/java/com/practice/concurrency/era1_classic/ping_pong_game/`!** 🚀
