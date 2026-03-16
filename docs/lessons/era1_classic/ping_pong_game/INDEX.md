@@ -81,7 +81,21 @@ try {
 
 ---
 
-### 5. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
+### 5. [CyclicBarrier Pattern (The Relay Race)](cyclic_barrier_pattern.md)
+**Approach:** Two `CyclicBarrier` objects for hand-offs
+
+```java
+afterPing.await(); // Wait for Ping
+print("Pong");
+afterPong.await(); // Signal Pong done
+```
+
+**Lesson:** Using barriers for lock-step coordination
+**Difficulty:** ⭐⭐ (Intermediate)
+
+---
+
+### 6. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
 **Approach:** Extract common pattern, use lambdas for actions
 
 ```java
