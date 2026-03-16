@@ -200,6 +200,23 @@ while (turn != Turn.PING) { ... }
 turn = Turn.PONG;
 ```
 
+### 5. Exchanger Pattern (Double Handshake)
+**Best for:** Strict 2-thread data swapping or synchronization.
+```java
+// Thread A             // Thread B
+exchange("HandOff");    exchange("Wait");
+// ... work ...         // ... work ...
+exchange("Wait");       exchange("Ack");
+```
+
+### 6. CyclicBarrier Pattern (Relay Race)
+**Best for:** Group synchronization (N threads wait for each other).
+```java
+// Barrier 1            // Barrier 2
+barrier1.await();       barrier2.await();
+// ... work ...         // ... work ...
+```
+
 ---
 
 ## 📊 Exercise Organization
