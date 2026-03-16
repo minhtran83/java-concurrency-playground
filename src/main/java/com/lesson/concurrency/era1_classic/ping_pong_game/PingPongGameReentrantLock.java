@@ -77,13 +77,13 @@ public class PingPongGameReentrantLock {
 
     public void ping(int count) {
         doTurnBasedWork(Turn.PING, Turn.PONG,
-                       () -> System.out.print("Ping"),
+                       () -> System.out.println("Ping"),
                        count);
     }
 
     public void pong(int count) {
         doTurnBasedWork(Turn.PONG, Turn.PING,
-                       () -> System.out.print("Pong"),
+                       () -> System.out.println("Pong"),
                        count);
     }
 

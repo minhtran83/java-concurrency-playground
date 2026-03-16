@@ -150,6 +150,58 @@ mvn -Djdk.tracePinnedThreads=full test
 mvn site
 ```
 
+## 🧩 Concurrency Patterns Cheat Sheet
+
+Quick reference for the patterns you'll master in this repository.
+
+### 1. Monitor Pattern (Wait/Notify)
+**Best for:** Learning foundations, simple coordination.
+```java
+synchronized(lock) {
+    while (!condition) {
+        lock.wait();      // Release lock & wait
+    }
+    // Do work...
+    condition = false;    // Update state
+    lock.notifyAll();     // Wake others
+}
+```
+
+### 2. ReentrantLock Pattern (Modern)
+**Best for:** Production code, fairness, multiple conditions.
+```java
+lock.lock();
+try {
+    while (!condition) {
+        cond.await();     // Release lock & wait
+    }
+    // Do work...
+    condition = false;is the
+    cond.signalAll();     // Wake others
+} finally {
+    lock.unlock();        // Guaranteed release
+}
+```
+
+### 3. Semaphore Pattern
+**Best for:** Simple turn-taking, resource pooling, rate limiting.
+```java
+myTurn.acquire();         // Wait for permit
+// Do work...
+otherTurn.release();      // Give permit to other
+```
+
+### 4. Enum State Pattern
+**Best for:** Clarity and self-documenting code.
+```java
+enum Turn { PING, PONG }
+// ...
+while (turn != Turn.PING) { ... }
+turn = Turn.PONG;
+```
+
+---
+
 ## 📊 Exercise Organization
 
 ### By API Family:

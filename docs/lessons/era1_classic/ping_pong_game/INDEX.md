@@ -63,7 +63,25 @@ while (turn != Turn.PING) lock.wait();
 
 ---
 
-### 4. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
+### 4. [ReentrantLock Pattern (Modern)](reentrant_lock_pattern.md)
+**Approach:** `ReentrantLock` and `Condition`
+
+```java
+lock.lock();
+try {
+    while (turn != PING) condition.await();
+    // ...
+} finally {
+    lock.unlock();
+}
+```
+
+**Lesson:** Explicit locking, multiple conditions, fairness
+**Difficulty:** ⭐⭐⭐ (Intermediate)
+
+---
+
+### 5. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
 **Approach:** Extract common pattern, use lambdas for actions
 
 ```java
