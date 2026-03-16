@@ -33,7 +33,7 @@
         <maven-failsafe-plugin.version>3.0.0-M9</maven-failsafe-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -143,6 +143,9 @@
             </plugin>
 
             <!-- JaCoCo Maven Plugin for Code Coverage -->
+            <!-- Note: Disabled due to JDK 25 compatibility issues with version 0.8.12 -->
+            <!-- Can be re-enabled when newer version supports class file major version 69 -->
+            <!--
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -162,6 +165,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
 
             <!-- Maven JAR Plugin -->
             <plugin>
