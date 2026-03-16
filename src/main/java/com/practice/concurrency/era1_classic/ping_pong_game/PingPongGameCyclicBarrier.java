@@ -3,49 +3,33 @@ package com.practice.concurrency.era1_classic.ping_pong_game;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-/**
- * Exercise: Ping-Pong using CyclicBarrier
- *
- * Challenge: CyclicBarrier is designed for "All threads arrive at point X",
- * not "Thread A then Thread B".
- *
- * Solution: Use TWO barriers to simulate a relay race.
- * 1. Barrier 1: "Ping is done"
- * 2. Barrier 2: "Pong is done"
- */
 public class PingPongGameCyclicBarrier {
+    CyclicBarrier pingCyclicBarrier = new CyclicBarrier(2);
+    CyclicBarrier pongCyclicBarrier = new CyclicBarrier(2);
 
-    // Barrier 1: Wait for Ping to print
-    private final CyclicBarrier afterPing = new CyclicBarrier(2);
-
-    // Barrier 2: Wait for Pong to print
-    private final CyclicBarrier afterPong = new CyclicBarrier(2);
-
-    public void play(int count) {
+    public PingPongGameCyclicBarrier(int count) {
         Thread pingThread = new Thread(() -> {
-            try {
-                for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++) {
+                try {
                     System.out.println("Ping");
-                    afterPing.await(); // Signal Ping done
-                    afterPong.await(); // Wait for Pong done
+                    pingCyclicBarrier.await();
+                    pongCyclicBarrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException | BrokenBarrierException e) {
-                Thread.currentThread().interrupt();
             }
         });
-
         Thread pongThread = new Thread(() -> {
-            try {
-                for (int i = 0; i < count; i++) {
-                    afterPing.await(); // Wait for Ping done
+            for (int i = 0; i < count; i++) {
+                try {
+                    pingCyclicBarrier.await();
                     System.out.println("Pong");
-                    afterPong.await(); // Signal Pong done
+                    pongCyclicBarrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException | BrokenBarrierException e) {
-                Thread.currentThread().interrupt();
             }
         });
-
         pingThread.start();
         pongThread.start();
 
@@ -55,10 +39,9 @@ public class PingPongGameCyclicBarrier {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        System.out.println("Game over");
     }
 
-    public static void main(String[] args) {
-        new PingPongGameCyclicBarrier().play(10);
+    static void main() {
+        new PingPongGameCyclicBarrier(10);
     }
 }
