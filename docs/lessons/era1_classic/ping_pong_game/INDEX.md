@@ -95,7 +95,21 @@ afterPong.await(); // Signal Pong done
 
 ---
 
-### 6. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
+### 6. [Exchanger Pattern (Double Handshake)](exchanger_pattern.md)
+**Approach:** Two `exchange()` calls per cycle for strict ordering
+
+```java
+print("Ping");
+exchange("Turn"); // Hand off
+exchange("Wait"); // Wait for return
+```
+
+**Lesson:** Using rendezvous primitives for serialization
+**Difficulty:** ⭐⭐ (Intermediate)
+
+---
+
+### 7. [Generic/DRY Pattern (Advanced Refactoring)](monitor_pattern_generic.md)
 **Approach:** Extract common pattern, use lambdas for actions
 
 ```java
