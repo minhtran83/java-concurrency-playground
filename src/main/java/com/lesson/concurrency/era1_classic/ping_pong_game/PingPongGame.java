@@ -1,6 +1,6 @@
 package com.lesson.concurrency.era1_classic.monitor;
 
-import com.example.concurrency.util.ThreadUtils;
+import com.lesson.concurrency.util.ThreadUtils;
 
 /**
  * Exercise: The Strict Turn-Taker (Ping-Pong)
