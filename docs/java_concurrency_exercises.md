@@ -410,6 +410,12 @@ Threads representing "Riders" and "Drivers" must wait for each other in pairs. O
 ### 4. The H2O Creator
 Two threads provide Hydrogen and one provides Oxygen. You must coordinate them so they only proceed when they can form an $H_2O$ molecule (requires `Semaphore` or `Phaser`).
 
+### 5. The LMAX Disruptor (Ring Buffer)
+Implement a simplified high-performance Ring Buffer based on the LMAX Disruptor architecture.
+- **Goal:** Achieve millions of ops/sec with zero garbage collection.
+- **Key Concepts:** Pre-allocated array, Sequence Barriers, Single Writer Principle, and Cache Line Padding (to prevent false sharing).
+- **Challenge:** Avoid all locks and `synchronized` blocks. Use memory barriers (volatile/VarHandle) only.
+
 ---
 
 ## Final Mastery Checklist: Java Concurrency from JDK 5 to JDK 25

@@ -6,12 +6,12 @@ This document tracks your progress through all Java concurrency exercises organi
 
 ## Quick Progress Summary
 
-- [ ] **Classic Era (JDK 5)** - 0/11 exercises completed
+- [ ] **Classic Era (JDK 5)** - 1/11 exercises completed (PingPongGame)
 - [ ] **Parallelism & Async Era (JDK 7-8)** - 0/7 exercises completed
 - [ ] **Reactive & Modern Era (JDK 9-17)** - 0/3 exercises completed
 - [ ] **Project Loom Era (JDK 21+)** - 0/5 exercises completed
-- [ ] **Advanced Specialized Utilities** - 0/9 exercises completed
-- [ ] **Pipeline Coordination** - 0/5 exercises completed
+- [ ] **Advanced Specialized Utilities** - 1/9 exercises completed (Exchanger)
+- [ ] **Pipeline Coordination** - 1/5 exercises completed (CyclicBarrier)
 - [ ] **Niche, High-Performance & Diagnostic APIs** - 0/8 exercises completed
 - [ ] **Senior-Level Machine Coding Challenges** - 0/4 exercises completed
 
@@ -23,11 +23,11 @@ This document tracks your progress through all Java concurrency exercises organi
 
 ### Monitor Pattern & `wait()`/`notify()`
 
-- [ ] **The Strict Turn-Taker (Ping-Pong)**
-  - Status: Not Started
+- [x] **The Strict Turn-Taker (Ping-Pong)**
+  - Status: Completed (Wait/Notify, Enum, Semaphore, ReentrantLock, Exchanger, CyclicBarrier)
   - Difficulty: ⭐ (Beginner)
-  - Key Concepts: Monitor locks, boolean flags, `notify()`
-  - Notes: _Add implementation notes here_
+  - Key Concepts: Monitor locks, boolean flags, `notify()`, Semaphore, Exchanger
+  - Notes: _Implemented 6 variants including ReentrantLock and Exchanger double-handshake_
 
 - [ ] **The Manual Bounded Buffer (Producer-Consumer)**
   - Status: Not Started
@@ -71,6 +71,10 @@ This document tracks your progress through all Java concurrency exercises organi
   - Level 3: `ArrayBlockingQueue`
     - [ ] Status: Not Started
     - Difficulty: ⭐ (Beginner)
+  - Level 4: **Two-Lock Queue** (LinkedBlockingQueue style)
+    - [ ] Status: Not Started
+    - Difficulty: ⭐⭐⭐⭐ (Expert)
+    - Key Concepts: Split locks (`putLock`, `takeLock`), AtomicInteger count, signal cascading
   - Notes: _Add implementation notes here_
 
 - [ ] **The Dining Philosophers**
@@ -219,12 +223,12 @@ This document tracks your progress through all Java concurrency exercises organi
 
 ## Era 5: Advanced Specialized Utilities (JDK 5-9+)
 
-- [ ] **The Secret Message Swap**
-  - Status: Not Started
+- [x] **The Secret Message Swap**
+  - Status: Completed (PingPong variant implemented)
   - Difficulty: ⭐⭐ (Intermediate)
   - Key Concepts: Buffer swapping, pipeline design, GC optimization
   - APIs: `Exchanger`
-  - Notes: _Add implementation notes here_
+  - Notes: _Implemented PingPongGameExchanger using double-handshake pattern_
 
 - [ ] **The Statistics Benchmark**
   - Status: Not Started
@@ -286,12 +290,12 @@ This document tracks your progress through all Java concurrency exercises organi
 
 ## Era 6: Pipeline Coordination: Barriers and Phasers
 
-- [ ] **The Rigid Assembly Line**
-  - Status: Not Started
+- [x] **The Rigid Assembly Line**
+  - Status: Completed (PingPong variant implemented)
   - Difficulty: ⭐⭐⭐ (Advanced)
   - Key Concepts: Fixed barrier, batch processing, barrier actions
   - APIs: `CyclicBarrier`
-  - Notes: _Add implementation notes here_
+  - Notes: _Implemented PingPongGameCyclicBarrier using 2-barrier relay race pattern_
 
 - [ ] **The Video Frame Renderer**
   - Status: Not Started
@@ -398,6 +402,13 @@ This document tracks your progress through all Java concurrency exercises organi
   - Key Concepts: Multi-party coordination, specific count requirements
   - APIs: `Semaphore`, `Phaser`, or custom synchronizer
   - Notes: _Add implementation notes here_
+
+- [ ] **The LMAX Disruptor (Ring Buffer)**
+  - Status: Not Started
+  - Difficulty: ⭐⭐⭐⭐⭐ (Guru)
+  - Key Concepts: Ring Buffer, Sequence Barriers, False Sharing (Padding), Single Writer Principle
+  - APIs: `AtomicLong` (padded), Unsafe/VarHandle, Memory Barriers
+  - Notes: _Implement a simplified lock-free ring buffer for message passing_
 
 ---
 
