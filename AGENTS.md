@@ -480,8 +480,9 @@ When building comprehensive learning repositories, implement a three-tier struct
 
 ### Lesson Documentation Structure
 For educational/lesson content within a repository:
-1. **Mirror the project structure** - Lessons follow `docs/lessons/[era]/[category]/` matching source code organization
-2. **Three-level navigation** - Provide INDEX.md at era level, category level, and lesson level for intuitive navigation
+1. **Organize by Exercise, Not Category** - Use `ping_pong_game/` instead of `monitor/`. This allows multiple approaches (Monitor, Semaphore, Lock) to live together under one problem statement.
+2. **Mirror the project structure** - Lessons follow `docs/lessons/[era]/[exercise]/` matching source code organization
+3. **Three-level navigation** - Provide INDEX.md at era level, exercise level, and lesson level for intuitive navigation
 3. **Include multiple lesson depths** - Start with fundamentals, progress to alternatives, then show advanced/refactored versions
 4. **Self-contained lessons** - Each lesson file should be readable independently, but reference related lessons for deeper learning
 5. **Progression paths** - Include multiple learning paths (Beginner, Intermediate, Advanced) tailored to different backgrounds
@@ -523,3 +524,21 @@ Level 3: Generic method with lambda parameters
 ```
 
 **Key insight:** Don't skip Level 1 to show "best practice." Beginners need to see how things work before learning optimizations. The progression naturally teaches "why" modern approaches exist.
+
+### Race Condition Discovery through Stress Testing
+Race conditions often don't appear in simple tests.
+- **Insight:** 100 iterations might pass, but 125+ might fail (as seen in PingPongGame).
+- **Lesson:** Always use stress tests (1000+ iterations or sleep delays) when verifying concurrency patterns.
+- **Application:** Use `Thread.sleep(1)` inside critical sections during testing to expose race conditions.
+
+### Synchronization Scope Awareness
+Common mistake: Calling `notifyAll()` or modifying shared state outside `synchronized` block.
+- **Why it happens:** Trying to minimize synchronized block size.
+- **Why it fails:** Releases lock too early -> Race condition -> Deadlock.
+- **Rule:** Any read/write to shared mutable state + the notify call MUST be atomic (inside the same synchronized block).
+
+### Static Inner Classes for Enums
+When using `private enum` inside a class:
+- **Mistake:** `private enum Turn { ... }`
+- **Fix:** `private static enum Turn { ... }`
+- **Reason:** Prevents implicit reference to outer class, avoids visibility warnings, better performance.

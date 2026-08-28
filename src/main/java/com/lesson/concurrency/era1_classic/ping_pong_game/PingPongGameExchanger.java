@@ -20,7 +20,7 @@ public class PingPongGameExchanger {
         Thread pingThread = new Thread(() -> {
             try {
                 for (int i = 0; i < count; i++) {
-                    System.out.print("Ping");
+                    System.out.println("Ping");
                     exchanger.exchange("PingDone"); // 1. Hand off to Pong
                     exchanger.exchange("Wait");     // 2. Wait for Pong to finish
                 }
@@ -33,7 +33,7 @@ public class PingPongGameExchanger {
             try {
                 for (int i = 0; i < count; i++) {
                     exchanger.exchange("Wait");     // 1. Wait for Ping
-                    System.out.print("Pong ");
+                    System.out.println("Pong ");
                     exchanger.exchange("PongDone"); // 2. Hand off to Ping
                 }
             } catch (InterruptedException e) {
